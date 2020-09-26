@@ -30,6 +30,7 @@ const ModalAddContact = ({ isOpen, setIsOpen }) => {
                 getContacts()
             })
             .catch(err => {
+                toast.error(err.respones.data.message)
             })
             .finally(() => {
             })
