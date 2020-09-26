@@ -1,5 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import React, { useContext, useState } from 'react'
+import { toast } from 'react-toastify'
 import { Button, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
 import * as yup from 'yup'
 import { ContactContext } from '../App'
@@ -9,6 +10,7 @@ const ModalViewContact = (props) => {
 
 
     const { isOpen, setIsOpen } = props
+    const [_id, set_id] = useState(props._id)
 
 
     const initialValues = {
@@ -21,11 +23,12 @@ const ModalViewContact = (props) => {
     })
     const onSubmit = ({ name, mobile }) => {
         setDoing(true)
-        updateContact(props._id, name, mobile)
+        updateContact(_id, name, mobile)
             .then(res => {
-                getContacts()
                 setDoing(false)
-                setTimeout(()=>{closeModal()}, 2000)
+                toast.success("Contact sucessfully updated!", {position: "bottom-right"})
+                setTimeout(()=>{closeModal()}, 5000)
+                getContacts()
             })
             .catch(err => {
             })
@@ -42,11 +45,12 @@ const ModalViewContact = (props) => {
     const [doing, setDoing] = useState(false)
     const _delete = () => {
         setDoing(true)
-        deleteContact(props._id)
+        deleteContact(_id)
             .then(res => {
-                getContacts()
                 setDoing(false)
+                toast.success("Contact sucessfully deleted!", {position: "bottom-right"})
                 setTimeout(()=>{closeModal()}, 2000)
+                getContacts()
             })
             .catch(err => {
             })
@@ -81,7 +85,7 @@ const ModalViewContact = (props) => {
                             </ErrorMessage>
                         </FormGroup>
                         <div className="d-flex justify-content-end">
-                            <Button className="ml-2" disabled={doing} color="primary">Update Contact</Button>
+                            <Button className="ml-2" disabled={doing} color="primary" type="submit">Update Contact</Button>
                             <Button className="ml-2" disabled={doing} color="danger" type="button" onClick={_delete}>Delete</Button>
                         </div>
                     </Form>

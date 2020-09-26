@@ -2,6 +2,9 @@ import React, { createContext, useEffect, useState } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import axios from 'axios'
 import { Button, FormGroup, Input, InputGroup, InputGroupAddon, Spinner } from 'reactstrap';
 import Contact from './components/Contact';
@@ -79,11 +82,14 @@ function App() {
   }
 
   const searchedFor = (query, contact) => {
-    return contact._id.includes(query) || contact.name.includes(query) || contact.mobile.includes(query)
+    console.log(query, contact)
+    query = query.toLowerCase()
+    return contact._id.toLowerCase().includes(query) || contact.name.toLowerCase().includes(query) || contact.mobile.toLowerCase().includes(query)
   }
 
   return (
     <ContactContext.Provider value={{ getContacts, addContact, deleteContact, updateContact }}>
+      <ToastContainer />
       <div className="container py-5">
         <ModalAddContact
           isOpen={modalAddContactIsOpen}

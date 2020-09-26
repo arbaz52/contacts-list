@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react'
 import { Button, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
 import { ContactContext } from '../App'
 import * as yup from 'yup'
+import { toast } from 'react-toastify'
 
 const ModalAddContact = ({ isOpen, setIsOpen }) => {
     const { addContact, getContacts } = useContext(ContactContext)
@@ -23,9 +24,10 @@ const ModalAddContact = ({ isOpen, setIsOpen }) => {
         setAdding(true)
         addContact(name, mobile)
             .then(res => {
-                getContacts()
                 setAdding(false)
+                toast.success("Contact sucessfully added!", {position: "bottom-right"})
                 setTimeout(()=>{closeModal()}, 1000)
+                getContacts()
             })
             .catch(err => {
             })
